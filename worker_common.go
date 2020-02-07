@@ -109,7 +109,6 @@ func (w *CommonWorker) Perform(job *Job, opt ...Option) error {
 			err := RunE(func() error { return h(job) }, WithJob(job))
 			syncCancel() // no reason to defer this
 			if err != nil {
-				w.Logger.Error(err)
 				return err
 			}
 			return nil
