@@ -23,7 +23,7 @@ If we do have concurrent work, then we also need to manage things like:
 
 # Using go-work
 
-## [Jobs](https://github.com/BoseCorp/go-work/blob/master/docs.md#type-job)
+## [Jobs](https://github.com/Bose/go-work/blob/master/docs.md#type-job)
 Jobs define the work to be done in a common interface.  Think of them like an http.Request with an attached context (Ctx).   Jobs have Args, Context, and optional timeouts.   A Job.Ctx has key/values which can be used to pass data down the chain of adapters (aka middleware).  A Job.Ctx.Status is set by a Handler to represent the state of the Job's execution: Success, Error, NoResponse, etc)  Jobs are passed to Handlers by a Worker for each request.   
 ``` go
 type Job struct {
@@ -44,7 +44,7 @@ type Job struct {
 }
 
 ```
-## [Handlers](https://github.com/BoseCorp/go-work/blob/master/docs.md#type-handler)
+## [Handlers](https://github.com/Bose/go-work/blob/master/docs.md#type-handler)
 Handlers define the func to be executed for a Job by a Worker.  Handlers also represent an interface than can be chained together to create middleware (aka Adapters)
 ``` go
 type Handler func(j *Job) error
@@ -101,7 +101,7 @@ func DefaultPublishNextMessageCRDB(j *work.Job) error {
 }
 ```
 
-## [Concurrent Job](https://github.com/BoseCorp/go-work/blob/master/docs.md#type-concurrentjob)
+## [Concurrent Job](https://github.com/Bose/go-work/blob/master/docs.md#type-concurrentjob)
 Concurrent jobs define a job to be performed by workers concurrently.
 
 ``` go
@@ -183,7 +183,7 @@ const (
 )
 ```
 
-## [Worker](https://github.com/BoseCorp/go-work/blob/master/docs.md#type-worker)
+## [Worker](https://github.com/Bose/go-work/blob/master/docs.md#type-worker)
 A Worker implements an interface that defines how a Job will be executed.  
 - now (sync and async)
 - at a time in the future (only async)
@@ -196,7 +196,7 @@ defer w.Stop()
 ```
 
 Official implementations:  
-- [CommonWorker](https://github.com/BoseCorp/go-work/blob/master/docs.md#type-worker). CommonWorkers is backed by the standard lib and goroutines. 
+- [CommonWorker](https://github.com/Bose/go-work/blob/master/docs.md#type-worker). CommonWorkers is backed by the standard lib and goroutines. 
 
 ``` go
 type Worker interface {
@@ -262,4 +262,4 @@ I need to acknowledge that many of the ideas implemented in this library are not
 - Mark Bate's Buffalo [Worker](https://gobuffalo.io/en/docs/workers)
 
 ---
-##  Complete API reference: [docs.md](https://github.com/BoseCorp/go-work/blob/master/docs.md#type-commonworker)
+##  Complete API reference: [docs.md](https://github.com/Bose/go-work/blob/master/docs.md#type-commonworker)

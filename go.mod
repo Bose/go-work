@@ -1,4 +1,4 @@
-module github.com/BoseCorp/go-work
+module github.com/Bose/go-work
 
 go 1.12
 

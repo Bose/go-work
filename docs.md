@@ -1,7 +1,7 @@
 
 
 # work
-`import "github.com/BoseCorp/go-work"`
+`import "github.com/Bose/go-work"`
 
 * [Overview](#pkg-overview)
 * [Index](#pkg-index)
@@ -100,7 +100,7 @@
 
 
 #### <a name="pkg-files">Package files</a>
-[channel.go](/src/github.com/BoseCorp/go-work/channel.go) [concurrent_job.go](/src/github.com/BoseCorp/go-work/concurrent_job.go) [context.go](/src/github.com/BoseCorp/go-work/context.go) [job.go](/src/github.com/BoseCorp/go-work/job.go) [logger.go](/src/github.com/BoseCorp/go-work/logger.go) [metrics.go](/src/github.com/BoseCorp/go-work/metrics.go) [middleware.go](/src/github.com/BoseCorp/go-work/middleware.go) [middleware_aggregatelogger.go](/src/github.com/BoseCorp/go-work/middleware_aggregatelogger.go) [middleware_health.go](/src/github.com/BoseCorp/go-work/middleware_health.go) [middleware_opentracing.go](/src/github.com/BoseCorp/go-work/middleware_opentracing.go) [middleware_prometheus.go](/src/github.com/BoseCorp/go-work/middleware_prometheus.go) [options.go](/src/github.com/BoseCorp/go-work/options.go) [safe.go](/src/github.com/BoseCorp/go-work/safe.go) [session.go](/src/github.com/BoseCorp/go-work/session.go) [span.go](/src/github.com/BoseCorp/go-work/span.go) [status.go](/src/github.com/BoseCorp/go-work/status.go) [worker.go](/src/github.com/BoseCorp/go-work/worker.go) [worker_common.go](/src/github.com/BoseCorp/go-work/worker_common.go) 
+[channel.go](/src/github.com/Bose/go-work/channel.go) [concurrent_job.go](/src/github.com/Bose/go-work/concurrent_job.go) [context.go](/src/github.com/Bose/go-work/context.go) [job.go](/src/github.com/Bose/go-work/job.go) [logger.go](/src/github.com/Bose/go-work/logger.go) [metrics.go](/src/github.com/Bose/go-work/metrics.go) [middleware.go](/src/github.com/Bose/go-work/middleware.go) [middleware_aggregatelogger.go](/src/github.com/Bose/go-work/middleware_aggregatelogger.go) [middleware_health.go](/src/github.com/Bose/go-work/middleware_health.go) [middleware_opentracing.go](/src/github.com/Bose/go-work/middleware_opentracing.go) [middleware_prometheus.go](/src/github.com/Bose/go-work/middleware_prometheus.go) [options.go](/src/github.com/Bose/go-work/options.go) [safe.go](/src/github.com/Bose/go-work/safe.go) [session.go](/src/github.com/Bose/go-work/session.go) [span.go](/src/github.com/Bose/go-work/span.go) [status.go](/src/github.com/Bose/go-work/status.go) [worker.go](/src/github.com/Bose/go-work/worker.go) [worker_common.go](/src/github.com/Bose/go-work/worker_common.go) 
 
 
 ## <a name="pkg-constants">Constants</a>
