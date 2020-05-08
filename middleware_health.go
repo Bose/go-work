@@ -179,9 +179,6 @@ func NewHealthCheck(opt ...Option) *HealthCheck {
 	} else {
 		h.metricTicker = time.NewTicker(DefaultHealthTickerDuration)
 	}
-	if e, ok := opts[optionWithEngine].(*gin.Engine); ok {
-		h.Engine = e
-	}
 
 	return h
 }
