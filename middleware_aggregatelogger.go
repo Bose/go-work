@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	ginlogrus "github.com/Bose/go-gin-logrus"
+	ginlogrus "github.com/Bose/go-gin-logrus/v2"
 	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/sirupsen/logrus"
 )
@@ -17,7 +17,7 @@ const AggregateLogger = "aggregateLogger"
 
 const optionAggregateLoggingUseBanner = "optionAggregateLoggingUseBanner"
 
-// WithBanner specifys the table name to use for an outbox
+// WithBanner specifies the table name to use for an outbox
 func WithBanner(useBanner bool) Option {
 	return func(o Options) {
 		o[optionAggregateLoggingUseBanner] = useBanner
@@ -26,10 +26,39 @@ func WithBanner(useBanner bool) Option {
 
 const optionSilentNoResponse = "optionSilentNoResponse"
 
-// WithSilentNoReponse specifies that StatusNoResponse requests should be silent (no logging)
+// WithSilentNoResponse specifies that StatusNoResponse requests should be silent (no logging)
 func WithSilentNoResponse(silent bool) Option {
 	return func(o Options) {
 		o[optionSilentNoResponse] = silent
+	}
+}
+
+const optionSilentSuccess = "optionSilentSuccess"
+// WithSilentSuccess specifies that StatusSuccess requests should be silent (no logging)
+func WithSilentSuccess(silent bool) Option {
+	return func(o Options) {
+		o[optionSilentSuccess] = silent
+	}
+}
+
+// ReducedLoggingFunc defines a function type used for custom logic on when to print logs
+type ReducedLoggingFunc func(workStatus Status, logBufferLength int) bool
+
+var DefaultReducedLoggingFunc ReducedLoggingFunc = func(s Status, l int) bool {return false}
+
+const optionReducedLoggingFunc = "optionReducedLoggingFunc"
+// WithReducedLoggingFunc specifies the function used to set custom logic around when to print logs
+func WithReducedLoggingFunc(a ReducedLoggingFunc) Option {
+	return func(o Options) {
+		o[optionReducedLoggingFunc] = a
+	}
+}
+
+const optionLogLevel = "optionLogLevel"
+// WithLogLevel will set the logrus log level for the job handler
+func WithLogLevel(level logrus.Level) Option {
+	return func(o Options) {
+		o[optionLogLevel] = level
 	}
 }
 
@@ -57,12 +86,24 @@ func WithAggregateLogger(
 			if b, ok := opts[optionSilentNoResponse].(bool); ok {
 				silentNoResponse = b
 			}
+			silentSuccess := false
+			if b, ok := opts[optionSilentSuccess].(bool); ok {
+				silentSuccess = b
+			}
+			var reducedLoggingFunc ReducedLoggingFunc = DefaultReducedLoggingFunc
+			if f, ok := opts[optionReducedLoggingFunc].(ReducedLoggingFunc); ok {
+				reducedLoggingFunc = f
+			}
+			logLevel := logrus.DebugLevel
+			if l, ok := opts[optionLogLevel].(logrus.Level); ok {
+				logLevel = l
+			}
 			aggregateLoggingBuff := ginlogrus.NewLogBuffer(ginlogrus.WithBanner(false))
 			aggregateRequestLogger := &logrus.Logger{
 				Out:       &aggregateLoggingBuff,
 				Formatter: new(logrus.JSONFormatter),
 				Hooks:     make(logrus.LevelHooks),
-				Level:     logrus.DebugLevel,
+				Level:     logLevel,
 			}
 
 			start := time.Now()
@@ -70,9 +111,11 @@ func WithAggregateLogger(
 			// you have to use this logger for every *logrus.Entry you create
 			job.Ctx.Set(AggregateLogger, aggregateRequestLogger)
 
-			// this will be deferred until after the chained handlers are exectuted
+			// this will be deferred until after the chained handlers are executed
 			defer func() {
-				if silentNoResponse && job.Ctx.Status() == StatusNoResponse {
+				if (silentNoResponse && job.Ctx.Status() == StatusNoResponse) ||
+					(silentSuccess && job.Ctx.Status() == StatusSuccess) ||
+					reducedLoggingFunc(job.Ctx.Status(), aggregateLoggingBuff.Length()) {
 					return
 				}
 
@@ -114,7 +157,7 @@ func WithAggregateLogger(
 				}
 				aggregateLoggingBuff.StoreHeader("request-summary-info", fields)
 				if useBanner {
-					// need to upgrade go-gin-logurs to let clients define their own banner
+					// need to upgrade go-gin-logrus to let clients define their own banner
 					// aggregateLoggingBuff.CustomBanner := "-------------------------------------------------------------"
 					aggregateLoggingBuff.AddBanner = true
 				}

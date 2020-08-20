@@ -3,7 +3,7 @@ module github.com/Bose/go-work
 go 1.12
 
 require (
-	github.com/Bose/go-gin-logrus v0.0.0-20190521185403-e97d8b4f57c6
+	github.com/Bose/go-gin-logrus/v2 v2.0.12
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.4.0
 	github.com/google/uuid v1.1.1 // indirect

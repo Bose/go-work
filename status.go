@@ -7,7 +7,7 @@ const (
 	// StatusUnknown was a job with an unknown status
 	StatusUnknown Status = -1
 
-	// StatusSucces was a successful job
+	// StatusSuccess was a successful job
 	StatusSuccess = 200
 
 	// StatusBadRequest was a job with a bad request
